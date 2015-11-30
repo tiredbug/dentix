@@ -13,6 +13,65 @@ function remove_dashboard_meta() {
 }
 add_action( 'admin_init', 'remove_dashboard_meta' );
 
+function add_jsapi_Scripts()
+{
+	global $wpdb;
+	 $male_sex_count = $wpdb->get_results("
+    SELECT * 
+    FROM $wpdb->posts 
+    INNER JOIN $wpdb->postmeta 
+    ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+    WHERE   $wpdb->posts.post_type = 'dentix' 
+    AND $wpdb->postmeta.meta_key = 'sex' 
+    AND $wpdb->postmeta.meta_value = 'Male' 
+  ;"); 
+   $female_sex_count = $wpdb->get_results("
+    SELECT * 
+    FROM $wpdb->posts 
+    INNER JOIN $wpdb->postmeta 
+    ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+    WHERE   $wpdb->posts.post_type = 'dentix' 
+    AND $wpdb->postmeta.meta_key = 'sex' 
+    AND $wpdb->postmeta.meta_value = 'Female' 
+  ;"); 
+  
+	wp_enqueue_script(
+		'google-jsapi',
+		'//www.google.com/jsapi',
+		array(),
+		0,
+		true
+	);
+
+	wp_enqueue_script(
+		'jsapi',
+		plugin_dir_url( __FILE__ ).'js/jsapi.js',
+		array( 'google-jsapi', ),
+		filemtime( plugin_dir_path( __FILE__ ).'js/jsapi.js' ),
+		true
+	);
+	
+   $male_sex_count = count($male_sex_count);
+      $female_sex_count = count($female_sex_count);
+   
+	//$male_sex_count = print $male_sex_count;
+	wp_localize_script(
+		'jsapi',
+		'jsapi',
+		array( 'exampleData' => array(
+			array( 'Sex',    'Persentase pasien berdasarkan jenis kelamin ', ),
+			array( 'Male',     $male_sex_count, ),
+			array( 'Female',      $female_sex_count, ),
+			//array( 'Commute',  2, ),
+			//array( 'Watch TV', 2, ),
+			//array( 'Sleep',    7, ),
+		) )
+		# In a real plugin, use the following instead:
+		// get_post_custom( get_the_ID() )
+	);
+}
+add_action('admin_print_scripts', 'add_jsapi_Scripts' );
+
  /**
  * Add a widget to the dashboard.
  *
@@ -53,7 +112,8 @@ add_action( 'wp_dashboard_setup', 'my_dashboard_setup_function' );
 function my_dashboard_setup_function() {
     add_meta_box( 'my_dashboard_widget', 'My Widget Name', 'my_dashboard_widget_function', 'dashboard', 'side', 'high' );
 }
-function my_dashboard_widget_function() {
+function my_dashboard_widget_function($data) {
 	echo '<h2>Dentix Metabox Statistics</h2>';
 	echo "Hello World, I'm a great Dashboard Widget";
+	?><div id="piechart"></div><?php
 }
