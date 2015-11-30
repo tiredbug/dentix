@@ -112,9 +112,9 @@ $nextRegNumber = $today.sprintf('%04s', $nextNumber);
 			echo '<td><img src="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
             } elseif ( $field == 'registration_number' ) {
                 if($meta == "") {
-			echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="' . $nextRegNumber . '" class="medium-text" /></td>';
+			echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="' . $nextRegNumber . '" class="medium-text" readonly /></td>';
 			    } else {
-			echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="medium-text" /></td>';
+			echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="medium-text" readonly /></td>';
 			    }
             } elseif ( $field == 'sex' ) { 
             echo '<td><input type="radio" name="' . $field . '" id="' . $field . '_male"  value="Male"  ' . checked( $meta, 'Male', false) . ' /> Male ';
