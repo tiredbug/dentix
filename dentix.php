@@ -8,7 +8,7 @@
  * Author URI: http://basoro.org/
  * Text Domain: dentix 
  * Domain Path: /languages/
- * License: MIT 
+ * License: GNU 
  */
 
 if( ! class_exists( 'Dentix_Updater' ) ){
