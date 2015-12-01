@@ -3,7 +3,7 @@
  * Plugin Name: Dentix 
  * Plugin URI: http://basoro.org/dentix/
  * Description: A wordpress plugin containing Simple Dental Records.
- * Version: 1.3
+ * Version: 1.4
  * Author: drg. F. Basoro
  * Author URI: http://basoro.org/
  * Text Domain: dentix 
@@ -21,7 +21,7 @@ $updater->set_repository( 'dentix' );
 //$updater->authorize( 'abcdefghijk1234567890' ); // Your auth code goes here for private repos
 $updater->initialize();
 
-define( 'DENTIX_VERSION', '1.3' );
+define( 'DENTIX_VERSION', '1.4' );
 define( 'DENTIX_DB_VERSION', 1 );
 define( 'DENTIX_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'DENTIX_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );
@@ -219,6 +219,59 @@ function remove_row_actions( $actions, $post )
 	//$actions['inline hide-if-no-js'] .= __( '' );
 
 	return $actions;
+}
+
+function admin_tool_bar($wp_admin_bar){
+    global $wp_admin_bar;
+    $post_type = 'dentix';
+    $count = wp_count_posts($post_type);
+    $args = array(
+        'id' => 'mbe_testimonials_pending',
+        'href' => admin_url('/edit.php?post_status=pending&post_type='.$post_type, 'http'),
+        'parent' => 'top-secondary'
+    );
+    if($count->pending == 1){
+        $title = ' Testimonial Awaiting Moderation';
+    } else{
+        $title = ' Testimonials Awaiting Moderation';
+    }
+    $args['meta']['title'] = $title;
+    if($count->pending == 0){
+        $display = '<span class="mbe-ab-text">'.$count->pending.' '.$title.'</span>';
+    } else{
+        $display = '<span class="mbe-update-bubble">'.$count->pending.'</span><span class="mbe-ab-text-active">'.$title.'</span>';
+    }
+    $args['title'] = $display;
+    $wp_admin_bar->add_node($args);
+}
+
+add_action('wp_before_admin_bar_render', 'admin_tool_bar', 999);
+
+
+add_filter( 'add_menu_classes', 'show_pending_number');
+function show_pending_number( $menu ) {
+    $type = "dentix";
+    $status = "pending";
+    $num_posts = wp_count_posts( $type, 'readable' );
+    $pending_count = 0;
+    if ( !empty($num_posts->$status) )
+        $pending_count = $num_posts->$status;
+
+    // build string to match in $menu array
+    if ($type == 'post') {
+        $menu_str = 'edit.php';
+    // support custom post types
+    } else {
+        $menu_str = 'edit.php?post_type=' . $type;
+    }
+
+    // loop through $menu items, find match, add indicator
+    foreach( $menu as $menu_key => $menu_data ) {
+        if( $menu_str != $menu_data[2] )
+            continue;
+        $menu[$menu_key][0] .= " <span class='update-plugins count-$pending_count'><span class='plugin-count'>" . number_format_i18n($pending_count) . '</span></span>';
+    }
+    return $menu;
 }
 
 ?>
