@@ -62,20 +62,6 @@ function dentix_move_metabox() {
     unset($wp_meta_boxes['dentix']['advanced']);
 }
 
-add_filter( 'gettext', 'dentix_change_publish_button', 10, 2 );
-function dentix_change_publish_button( $translation, $text ) {
-    if ( 'dentix' == get_post_type())
-        if ( $text == 'Draft' )
-		return 'Antrian';
-		if ( $text == 'Draft (%s)' )
-		return 'Antrian (%s)';
-		if ( $text == 'Publish' || $text == 'Update' )
-		return 'Update Data';
-		if ( $text == 'Published on: <b>%1$s</b>' )
-		return 'Registered on: <b>%1$s</b>';
-	return $translation;
-}
-
 add_filter( 'enter_title_here', 'dentix_default_title' );
 function dentix_default_title( $title ){
      $screen = get_current_screen();
