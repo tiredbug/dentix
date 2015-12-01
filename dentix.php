@@ -231,9 +231,9 @@ function admin_tool_bar($wp_admin_bar){
         'parent' => 'top-secondary'
     );
     if($count->pending == 1){
-        $title = ' Testimonial Awaiting Moderation';
+        $title = ' Patient Quewe';
     } else{
-        $title = ' Testimonials Awaiting Moderation';
+        $title = ' Patients Quewe';
     }
     $args['meta']['title'] = $title;
     if($count->pending == 0){
