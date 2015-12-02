@@ -195,9 +195,9 @@ function admin_tool_bar ($wp_admin_bar) {
 	}
 	$args['meta']['title'] = $title; 
 	if($count->pending == 0) {
-		$display = '<span class="mbe-ab-text">'.$count->pending.' '.$title.'</span>'; 
+		$display = '<span>'.$count->pending.' '.$title.'</span>'; 
 	} else {
-        	$display = '<span class="mbe-update-bubble">'.$count->pending.'</span><span class="mbe-ab-text-active">'.$title.'</span>'; 
+        	$display = '<span>'.$count->pending.'</span><span>'.$title.'</span>'; 
 	}
 	$args['title'] = $display;
 	$wp_admin_bar->add_node($args);
