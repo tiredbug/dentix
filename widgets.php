@@ -13,27 +13,26 @@ function remove_dashboard_meta() {
 }
 add_action( 'admin_init', 'remove_dashboard_meta' );
 
-function add_jsapi_Scripts()
-{
+function add_jsapi_Scripts() {
 	global $wpdb;
-	 $male_sex_count = $wpdb->get_results("
-    SELECT * 
-    FROM $wpdb->posts 
-    INNER JOIN $wpdb->postmeta 
-    ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    WHERE   $wpdb->posts.post_type = 'dentix' 
-    AND $wpdb->postmeta.meta_key = 'sex' 
-    AND $wpdb->postmeta.meta_value = 'Male' 
-  ;"); 
-   $female_sex_count = $wpdb->get_results("
-    SELECT * 
-    FROM $wpdb->posts 
-    INNER JOIN $wpdb->postmeta 
-    ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    WHERE   $wpdb->posts.post_type = 'dentix' 
-    AND $wpdb->postmeta.meta_key = 'sex' 
-    AND $wpdb->postmeta.meta_value = 'Female' 
-  ;"); 
+	$male_sex_count = $wpdb->get_results("
+		SELECT * 
+    		FROM $wpdb->posts 
+    		INNER JOIN $wpdb->postmeta 
+    		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		AND $wpdb->postmeta.meta_key = 'sex' 
+    		AND $wpdb->postmeta.meta_value = 'Male' 
+  	;"); 
+   	$female_sex_count = $wpdb->get_results("
+    		SELECT * 
+    		FROM $wpdb->posts 
+    		INNER JOIN $wpdb->postmeta 
+    		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		AND $wpdb->postmeta.meta_key = 'sex' 
+    		AND $wpdb->postmeta.meta_value = 'Female' 
+  	;"); 
   
 	wp_enqueue_script(
 		'google-jsapi',
@@ -51,8 +50,8 @@ function add_jsapi_Scripts()
 		true
 	);
 	
-   $male_sex_count = count($male_sex_count);
-      $female_sex_count = count($female_sex_count);
+   	$male_sex_count = count($male_sex_count);
+      	$female_sex_count = count($female_sex_count);
    
 	//$male_sex_count = print $male_sex_count;
 	wp_localize_script(
@@ -66,54 +65,41 @@ function add_jsapi_Scripts()
 			//array( 'Watch TV', 2, ),
 			//array( 'Sleep',    7, ),
 		) )
-		# In a real plugin, use the following instead:
-		// get_post_custom( get_the_ID() )
 	);
 }
 add_action('admin_print_scripts', 'add_jsapi_Scripts' );
 
- /**
- * Add a widget to the dashboard.
- *
- * This function is hooked into the 'wp_dashboard_setup' action below.
- */
 function dentix_add_dashboard_widgets() {
 
 	wp_add_dashboard_widget(
-                 'dentix_dashboard_widget',         // Widget slug.
-                 'Dentix Dashboard Widget',         // Title.
-                 'dentix_dashboard_widget_function' // Display function.
+                'dentix_dashboard_widget',         // Widget slug.
+                'Dentix Dashboard Widget',         // Title.
+                'dentix_dashboard_widget_function' // Display function.
         );	
 }
 add_action( 'wp_dashboard_setup', 'dentix_add_dashboard_widgets' );
 
-/**
- * Create the function to output the contents of our Dashboard Widget.
- */
 function dentix_dashboard_widget_function() {
 
-	// Display whatever it is you want to show.
 	echo '<h2>Dentix Statistics</h2>';
-	echo "Hello World, I'm a great Dashboard Widget";
 	global $wpdb;
- $sex_count = $wpdb->get_var("
-    SELECT COUNT(*) 
-    FROM $wpdb->posts 
-    INNER JOIN $wpdb->postmeta 
-    ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    WHERE   $wpdb->posts.post_type = 'dentix' 
-    AND $wpdb->postmeta.meta_key = 'sex' 
-  ;"); 
-echo '<p>Sex count is ' . $sex_count . '</p>'; 
+	$sex_count = $wpdb->get_var("
+    		SELECT COUNT(*) 
+    		FROM $wpdb->posts 
+    		INNER JOIN $wpdb->postmeta 
+    		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
+    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		AND $wpdb->postmeta.meta_key = 'sex' 
+  	;"); 
+	echo '<p>Sex count is ' . $sex_count . '</p>'; 
 }
-
 
 add_action( 'wp_dashboard_setup', 'my_dashboard_setup_function' );
 function my_dashboard_setup_function() {
-    add_meta_box( 'my_dashboard_widget', 'My Widget Name', 'my_dashboard_widget_function', 'dashboard', 'side', 'high' );
+	add_meta_box( 'my_dashboard_widget', 'My Widget Name', 'my_dashboard_widget_function', 'dashboard', 'side', 'high' );
 }
 function my_dashboard_widget_function($data) {
 	echo '<h2>Dentix Metabox Statistics</h2>';
-	echo "Hello World, I'm a great Dashboard Widget";
 	?><div id="piechart"></div><?php
 }
+?>
