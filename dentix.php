@@ -18,7 +18,6 @@ if( ! class_exists( 'Dentix_Updater' ) ){
 $updater = new Dentix_Updater( __FILE__ );
 $updater->set_username( 'basoro' );
 $updater->set_repository( 'dentix' );
-//$updater->authorize( 'abcdefghijk1234567890' ); // Your auth code goes here for private repos
 $updater->initialize();
 
 define( 'DENTIX_VERSION', '1.4' );
