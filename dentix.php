@@ -3,7 +3,7 @@
  * Plugin Name: Dentix 
  * Plugin URI: http://basoro.org/dentix/
  * Description: A wordpress plugin containing Simple Dental Records.
- * Version: 1.6
+ * Version: 1.7
  * Author: drg. F. Basoro
  * Author URI: http://basoro.org/
  * Text Domain: dentix 
@@ -20,7 +20,7 @@ $updater->set_username( 'basoro' );
 $updater->set_repository( 'dentix' );
 $updater->initialize();
 
-define( 'DENTIX_VERSION', '1.6' );
+define( 'DENTIX_VERSION', '1.7' );
 define( 'DENTIX_DB_VERSION', 1 );
 define( 'DENTIX_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'DENTIX_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );
@@ -230,5 +230,16 @@ function show_pending_number( $menu ) {
 	}
 	return $menu;
 }
+
+function screen_layout_columns( $columns ) {
+	$columns['dentix'] = 1;
+	return $columns;
+}
+add_filter( 'screen_layout_columns', 'screen_layout_columns' );
+
+function screen_layout_dentix() {
+	return 1;
+}
+add_filter( 'get_user_option_screen_layout_dentix', 'screen_layout_dentix' );
 
 ?>
