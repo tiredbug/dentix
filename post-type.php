@@ -1,24 +1,12 @@
 <?php
 
 function dentix_post_type_rewrite_flush() {
-    // First, we "add" the custom post type via the above written function.
-    // Note: "add" is written with quotes, as CPTs don't get added to the DB,
-    // They are only referenced in the post_type column with a post entry, 
-    // when you add a post of this CPT.
-    dentix_post_type_init();
-
-    // ATTENTION: This is *only* done during plugin activation hook in this example!
-    // You should *NEVER EVER* do this on every page load!!
-    flush_rewrite_rules();
+	dentix_post_type_init();
+	flush_rewrite_rules();
 }
 register_activation_hook( __FILE__, 'dentix_post_type_rewrite_flush' );
 
 add_action( 'init', 'dentix_post_type_init' );
-/**
- * Register a book post type.
- *
- * @link http://codex.wordpress.org/Function_Reference/register_post_type
- */
 function dentix_post_type_init() {
 	$labels = array(
 		'name'               => _x( 'Dentixs', 'post type general name', 'dentix' ),
@@ -67,7 +55,7 @@ function dentix_post_type_init() {
 
 function add_dentix_caps_to_admin() {
 	global $wp_roles;
-		if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
+	if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
         //create a new role, based on the subscriber role 
         $subscriber = $wp_roles->get_role('subscriber');
         $wp_roles->add_role('dentist', __( 'Dentist', 'dentix' ), $subscriber->capabilities);
@@ -102,15 +90,6 @@ function add_dentix_caps_to_admin() {
 add_action( 'admin_init', 'add_dentix_caps_to_admin' );
 
 add_filter( 'post_updated_messages', 'dentix_post_type_updated_messages' );
-/**
- * Book update messages.
- *
- * See /wp-admin/edit-form-advanced.php
- *
- * @param array $messages Existing post update messages.
- *
- * @return array Amended post update messages with new CPT update messages.
- */
 function dentix_post_type_updated_messages( $messages ) {
 	$post             = get_post();
 	$post_type        = get_post_type( $post );
@@ -153,48 +132,44 @@ function dentix_post_type_updated_messages( $messages ) {
 }
 
 add_action( 'contextual_help', 'dentix_add_help_text', 10, 3 );
-//display contextual help for Dentixs
 function dentix_add_help_text( $contextual_help, $screen_id, $screen ) {
-  //$contextual_help .= var_dump( $screen ); // use this to help determine $screen->id
-  if ( 'dentix' == $screen->id ) {
-    $contextual_help =
-      '<p>' . __('Things to remember when adding or editing a Dentix:', 'dentix') . '</p>' .
-      '<ul>' .
-      '<li>' . __('Specify the correct field such as Name, or Address.', 'dentix') . '</li>' .
-      '<li>' . __('Specify the correct phone number of the book.  Remember that the patient refers to you, the patient of this dentix.', 'dentix') . '</li>' .
-      '</ul>' .
-      '<p>' . __('If you want to schedule the dentix to be published in the future:', 'dentix') . '</p>' .
-      '<ul>' .
-      '<li>' . __('Under the Publish module, click on the Edit link next to Publish.', 'dentix') . '</li>' .
-      '<li>' . __('Change the date to the date to actual publish this article, then click on Ok.', 'dentix') . '</li>' .
-      '</ul>' .
-      '<p><strong>' . __('For more information:', 'dentix') . '</strong></p>' .
-      '<p>' . __('<a href="http://codex.wordpress.org/Posts_Edit_SubPanel" target="_blank">Edit Posts Documentation</a>', 'dentix') . '</p>' .
-      '<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>', 'dentix') . '</p>' ;
-  } elseif ( 'edit-book' == $screen->id ) {
-    $contextual_help =
-      '<p>' . __('This is the help screen displaying the table of Dentixs blah blah blah.', 'dentix') . '</p>' ;
-  }
-  return $contextual_help;
+	if ( 'dentix' == $screen->id ) {
+    		$contextual_help =
+      		'<p>' . __('Things to remember when adding or editing a Dentix:', 'dentix') . '</p>' .
+      		'<ul>' .
+      		'<li>' . __('Specify the correct field such as Name, or Address.', 'dentix') . '</li>' .
+      		'<li>' . __('Specify the correct phone number of the book.  Remember that the patient refers to you, the patient of this dentix.', 'dentix') . '</li>' .
+      		'</ul>' .
+      		'<p>' . __('If you want to schedule the dentix to be published in the future:', 'dentix') . '</p>' .
+      		'<ul>' .
+      		'<li>' . __('Under the Publish module, click on the Edit link next to Publish.', 'dentix') . '</li>' .
+      		'<li>' . __('Change the date to the date to actual publish this article, then click on Ok.', 'dentix') . '</li>' .
+      		'</ul>' .
+      		'<p><strong>' . __('For more information:', 'dentix') . '</strong></p>' .
+      		'<p>' . __('<a href="http://codex.wordpress.org/Posts_Edit_SubPanel" target="_blank">Edit Posts Documentation</a>', 'dentix') . '</p>' .
+      		'<p>' . __('<a href="http://wordpress.org/support/" target="_blank">Support Forums</a>', 'dentix') . '</p>' ;
+  	} elseif ( 'edit-book' == $screen->id ) {
+    		$contextual_help =
+      		'<p>' . __('This is the help screen displaying the table of Dentixs blah blah blah.', 'dentix') . '</p>' ;
+  	}
+  	return $contextual_help;
 }
 
 add_action('admin_head', 'dentix_custom_help_tab');
 function dentix_custom_help_tab() {
 
-  $screen = get_current_screen();
+	$screen = get_current_screen();
 
-  // Return early if we're not on the book post type.
-  if ( 'dentix' != $screen->post_type )
-    return;
+	if ( 'dentix' != $screen->post_type )
+    	return;
 
-  // Setup help tab args.
-  $args = array(
-    'id'      => 'dentix_help_tab_id', //unique id for the tab
-    'title'   => 'Dentix Help', //unique visible title for the tab
-    'content' => '<h3>Help Title</h3><p>Help content</p>',  //actual help text
-  );
+  	$args = array(
+    		'id'      => 'dentix_help_tab_id', //unique id for the tab
+    		'title'   => 'Dentix Help', //unique visible title for the tab
+    		'content' => '<h3>Help Title</h3><p>Help content</p>',  //actual help text
+  	);
   
-  // Add the help tab.
-  $screen->add_help_tab( $args );
+  	$screen->add_help_tab( $args );
 
 }
+?>
