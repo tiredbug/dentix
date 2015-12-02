@@ -36,7 +36,7 @@ function render_treatments_metabox() {
 			<th scope="col" id='diagnosis' class='manage-column column-diagnosis'>Diagnosis</th>
 			<th scope="col" id='treatment' class='manage-column column-treatment'>Treatment</th>
 			<th scope="col" id='bill' class='manage-column column-bill'>Bill</th>
-			<th></th>
+			<th width="25px"></th>
 		</tr>
 	</thead>
 	<tbody id="the-list">
