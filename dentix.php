@@ -25,6 +25,7 @@ define( 'DENTIX_DB_VERSION', 1 );
 define( 'DENTIX_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'DENTIX_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
+include_once( DENTIX_DIR . 'data.php' );
 include_once( DENTIX_DIR . 'widgets.php' );
 include_once( DENTIX_DIR . 'settings.php' );
 include_once( DENTIX_DIR . 'post-type.php' );
