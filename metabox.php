@@ -34,26 +34,30 @@ function render_dentix_metabox( $post) {
 			echo '<tr>';
 			echo '<th><label for="' . $field . '"><strong>' . __(ucwords(str_replace("_", " ", $field))) . '</strong></label></th>';
         		if ( $field == 'picture' ) {
-				echo '<td><img src="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
+                    if($meta == "") {
+                    echo '<td><img src="' . plugins_url( 'images/no-image.jpg', __FILE__ ) . '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
+			    	} else {
+				    echo '<td><img src="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
+				    }
         		} elseif ( $field == 'registration_number' ) {
-                		if($meta == "") {
+                	if($meta == "") {
 					echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="' . $nextRegNumber . '" class="medium-text" readonly /></td>';
 			    	} else {
 					echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="medium-text" readonly /></td>';
 			    	}
-            		} elseif ( $field == 'sex' ) { 
-            			echo '<td><input type="radio" name="' . $field . '" id="' . $field . '_male"  value="Male"  ' . checked( $meta, 'Male', false) . ' /> Male ';
-        			echo '<input type="radio" name="' . $field . '" id="' . $field . '_female"  value="Female" ' . checked( $meta, 'Female', false) . ' /> Female</td>';
-            		} elseif ( $field == 'address' ) { 
-            			echo '<td><textarea rows="3" name="' . $field . '" id="' . $field . '" class="large-text">', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '</textarea></td>';
-            		} elseif ( $field == 'marriage' ) { 
-            			echo '<td><input type="radio" name="' . $field . '" id="' . $field . '_single"  value="Single"  ' . checked( $meta, 'Single', false) . ' /> Single ';
-            			echo '<input type="radio" name="' . $field . '" id="' . $field . '_married"  value="Married" ' . checked( $meta, 'Married', false) . ' /> Married</td>';
-            		} elseif ( $field == 'date_of_birth' ) {
+            	} elseif ( $field == 'sex' ) { 
+            	echo '<td><input type="radio" name="' . $field . '" id="' . $field . '_male"  value="Male"  ' . checked( $meta, 'Male', false) . ' /> Male ';
+        		echo '<input type="radio" name="' . $field . '" id="' . $field . '_female"  value="Female" ' . checked( $meta, 'Female', false) . ' /> Female</td>';
+            	} elseif ( $field == 'address' ) { 
+            	echo '<td><textarea rows="3" name="' . $field . '" id="' . $field . '" class="large-text">', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '</textarea></td>';
+            	} elseif ( $field == 'marriage' ) { 
+            	echo '<td><input type="radio" name="' . $field . '" id="' . $field . '_single"  value="Single"  ' . checked( $meta, 'Single', false) . ' /> Single ';
+            	echo '<input type="radio" name="' . $field . '" id="' . $field . '_married"  value="Married" ' . checked( $meta, 'Married', false) . ' /> Married</td>';
+            	} elseif ( $field == 'date_of_birth' ) {
 				echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="medium-text"  placeholder="dd/mm/yyyy"/></td>';
-            		} else {
+            	} else {
 				echo '<td><input type="text" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text" /></td>';
-            		}
+            	}
 			echo '<tr>';
 		}
 	echo '</table>';
