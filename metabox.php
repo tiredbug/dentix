@@ -35,7 +35,7 @@ function render_dentix_metabox( $post) {
 			echo '<th><label for="' . $field . '"><strong>' . __(ucwords(str_replace("_", " ", $field))) . '</strong></label></th>';
         		if ( $field == 'picture' ) {
                     if($meta == "") {
-                    echo '<td><img src="' . plugins_url( 'images/no-image.jpg', __FILE__ ) . '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
+                    echo '<td><img src="' . plugins_url( 'images/no-image.jpg', __FILE__ ) . '" width="150px"  id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
 			    	} else {
 				    echo '<td><img src="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" id="picture_preview" /><br/> <input type="hidden" name="' . $field . '" id="' . $field . '" value="', $meta ? $meta : stripslashes(htmlspecialchars(( ""), ENT_QUOTES)), '" class="regular-text"  /><input type="button" name="upload-picture" id="upload-picture" value="Upload Picture" class="button-secondary"  /></td>';
 				    }
