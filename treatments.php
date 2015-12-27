@@ -2,7 +2,7 @@
  
 add_action('admin_init', 'treatments_metabox', 1);
 function treatments_metabox() {
-	add_meta_box( 'treatments-metabox', 'Treatments', 'render_treatments_metabox', 'dentix', 'advanced', 'low');
+	add_meta_box( 'treatments-metabox', 'Treatments', 'render_treatments_metabox', 'patient', 'advanced', 'low');
 }
 
 function render_treatments_metabox() {

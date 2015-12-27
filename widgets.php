@@ -20,7 +20,7 @@ function add_jsapi_Scripts() {
     		FROM $wpdb->posts 
     		INNER JOIN $wpdb->postmeta 
     		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		WHERE   $wpdb->posts.post_type = 'patient' 
     		AND $wpdb->postmeta.meta_key = 'sex' 
     		AND $wpdb->postmeta.meta_value = 'Male' 
   	;"); 
@@ -29,7 +29,7 @@ function add_jsapi_Scripts() {
     		FROM $wpdb->posts 
     		INNER JOIN $wpdb->postmeta 
     		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		WHERE   $wpdb->posts.post_type = 'patient' 
     		AND $wpdb->postmeta.meta_key = 'sex' 
     		AND $wpdb->postmeta.meta_value = 'Female' 
   	;"); 
@@ -44,9 +44,9 @@ function add_jsapi_Scripts() {
 
 	wp_enqueue_script(
 		'jsapi',
-		plugin_dir_url( __FILE__ ).'js/jsapi.js',
+		plugin_dir_url( __FILE__ ).'assets/js/jsapi.js',
 		array( 'google-jsapi', ),
-		filemtime( plugin_dir_path( __FILE__ ).'js/jsapi.js' ),
+		filemtime( plugin_dir_path( __FILE__ ).'assets/js/jsapi.js' ),
 		true
 	);
 	
@@ -88,7 +88,7 @@ function dentix_dashboard_widget_function() {
     		FROM $wpdb->posts 
     		INNER JOIN $wpdb->postmeta 
     		ON $wpdb->posts.ID = $wpdb->postmeta.post_id 
-    		WHERE   $wpdb->posts.post_type = 'dentix' 
+    		WHERE   $wpdb->posts.post_type = 'patient' 
     		AND $wpdb->postmeta.meta_key = 'sex' 
   	;"); 
 	echo '<p>Sex count is ' . $sex_count . '</p>'; 

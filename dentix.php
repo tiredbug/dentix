@@ -1,65 +1,136 @@
 <?php
 /*
- * Plugin Name: Dentix 
- * Plugin URI: http://basoro.org/dentix/
- * Description: A wordpress plugin containing Simple Dental Records.
- * Version: 2.1
- * Author: drg. F. Basoro
- * Author URI: http://basoro.org/
- * Text Domain: dentix 
- * Domain Path: /languages/
- * License: GNU 
- */
+Plugin Name: Dentix
+Plugin URI: http://basoro.org/dentix 
+Description: A simple wordpress plugin for electronic dental records 
+Version: 3.0
+Author: Faisol Basoro 
+Author URI: http://basoro.org 
+Text Domain: dentix 
+Domain Path: /languages/
+License: GPL2
+*/
 
-if( ! class_exists( 'Dentix_Updater' ) ){
-	include_once( plugin_dir_path( __FILE__ ) . 'updater.php' );
-}
+/*
+Copyright 2015  Faisol Basoro  (email : drg.faisol@basoro.org)
 
-$updater = new Dentix_Updater( __FILE__ );
-$updater->set_username( 'basoro' );
-$updater->set_repository( 'dentix' );
-$updater->initialize();
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License, version 2, as
+published by the Free Software Foundation.
 
-define( 'DENTIX_VERSION', '1.7' );
-define( 'DENTIX_DB_VERSION', 1 );
-define( 'DENTIX_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
-define( 'DENTIX_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-include_once( DENTIX_DIR . 'data.php' );
-include_once( DENTIX_DIR . 'widgets.php' );
-include_once( DENTIX_DIR . 'settings.php' );
-include_once( DENTIX_DIR . 'post-type.php' );
-include_once( DENTIX_DIR . 'metabox.php' );
-include_once( DENTIX_DIR . 'treatments.php' );
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
-function load_dentix_textdomain() { 
-load_plugin_textdomain( 'dentix', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' ); } 
-add_action( 'plugins_loaded', 'load_dentix_textdomain' );
+if(!class_exists('Dentix'))
+{
+	class Dentix
+	{
+		/**
+		 * Construct the plugin object
+		 */
+		public function __construct()
+		{
+			// Initialize Settings
+			require_once(sprintf("%s/updater.php", dirname(__FILE__)));
+			$Dentix_Updater = new Dentix_Updater(__FILE__);
+			$Dentix_Updater->set_username( 'basoro' );
+			$Dentix_Updater->set_repository( 'dentix' );
+			$Dentix_Updater->initialize();
 
-add_action('admin_print_scripts', 'dentix_scripts' );
-function dentix_scripts() {
-	if ( 'dentix' === get_current_screen()->id ) {
+			// Initialize Settings
+			require_once(sprintf('%s/settings.php', dirname(__FILE__)));
+			$Dentix_Settings = new Dentix_Settings();
 
-		wp_enqueue_style( 'jquery-ui-style', plugins_url( 'css/jquery-ui.min.css', __FILE__ ));
-		wp_enqueue_style( 'jquery-datepicker-css', plugins_url( 'css/jquery.datePicker.css', __FILE__ ));
-		wp_enqueue_style( 'dentix-css', plugins_url( 'css/dentix.css', __FILE__ ));
+			// Register custom post types
+			require_once(sprintf('%s/admin/post-type.php', dirname(__FILE__)));
+			$Dentix_Patient = new Dentix_Patient();
 
-		wp_enqueue_media();
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-ui-core' );
-		wp_enqueue_script( 'jquery-ui-datepicker' );
+                        // Register treatments metabox
+                        require_once(sprintf('%s/treatments.php', dirname(__FILE__)));
 
-		wp_enqueue_script( 'jquery-colorpicker-js', plugins_url( 'js/jquery.colorPicker.js', __FILE__ ), array('jquery'), time(), false );
-		wp_enqueue_script( 'dentix-js', plugins_url( 'js/dentix.js', __FILE__ ), array('jquery'), time(), false );
+                        // Register widgets metabox
+                        require_once(sprintf('%s/widgets.php', dirname(__FILE__)));
 
-    }
-}
+			$plugin = plugin_basename(__FILE__);
+			add_filter('plugin_action_links_$plugin', array( $this, 'plugin_settings_link' ));
+			add_action('admin_print_scripts', array( $this, 'dentix_scripts' ));
 
-add_action('edit_form_after_title', 'dentix_move_metabox');
+add_action('edit_form_after_title', array( $this,  'dentix_move_metabox'));
+
+		} // END public function __construct
+
+		/**
+		 * Activate the plugin
+		 */
+		public static function activate()
+		{
+			// Do nothing
+		} // END public static function activate
+
+		/**
+		 * Deactivate the plugin
+		 */
+		public static function deactivate()
+		{
+			// Do nothing
+		} // END public static function deactivate
+
+		// Add the settings link to the plugins page
+		function plugin_settings_link($links)
+		{
+			$settings_link = '<a href="options-general.php?page=dentix_settings">Settings</a>';
+			array_unshift($links, $settings_link);
+			return $links;
+		}
+
+		function dentix_scripts() 
+		{
+			if ( 'patient' === get_current_screen()->id ) 
+			{
+
+				wp_enqueue_style( 'jquery-ui-style', plugins_url( 'assets/css/jquery-ui.min.css', __FILE__ ));
+				wp_enqueue_style( 'jquery-datepicker-css', plugins_url( 'assets/css/jquery.datePicker.css', __FILE__ ));
+				wp_enqueue_style( 'dentix-css', plugins_url( 'assets/css/dentix.css', __FILE__ ));
+
+				wp_enqueue_media();
+				wp_enqueue_script( 'jquery' );
+				wp_enqueue_script( 'jquery-ui-core' );
+				wp_enqueue_script( 'jquery-ui-datepicker' );
+
+				wp_enqueue_script( 'jquery-colorpicker-js', plugins_url( 'assets/js/jquery.colorPicker.js', __FILE__ ), array('jquery'), time(), false );
+				wp_enqueue_script( 'dentix-js', plugins_url( 'assets/js/dentix.js', __FILE__ ), array('jquery'), time(), false );
+
+			}
+		}
+
+
 function dentix_move_metabox() {
 	global $post, $wp_meta_boxes;
+if ( 'patient' === get_current_screen()->id ) 
+			{
 	do_meta_boxes(get_current_screen(), 'advanced', $post);
-	unset($wp_meta_boxes['dentix']['advanced']);
+	unset($wp_meta_boxes['patient']['advanced']);
+}
+}
+	} // END class Dentix
+} // END if(!class_exists('Dentix'))
+
+if(class_exists('Dentix'))
+{
+	// Installation and uninstallation hooks
+	register_activation_hook(__FILE__, array('Dentix', 'activate'));
+	register_deactivation_hook(__FILE__, array('Dentix', 'deactivate'));
+
+	// instantiate the plugin class
+	$dentix = new Dentix();
+
 }
 
 add_action( 'posts_where_request', 'dentix_fields_search' );
@@ -78,19 +149,16 @@ function dentix_fields_search($where) {
 	}
 	return $where;
 }
-
 function dentix_search_join( $join ) {
 	global $wpdb;
 	return $join .= " LEFT JOIN $wpdb->postmeta ON ($wpdb->posts.ID = $wpdb->postmeta.post_id) ";
 }
-
 function dentix_search_distinct( $distinct ) {
 	$distinct = "DISTINCT";
 	return $distinct;
 }
-
-//add_filter( 'manage_edit-dentix_columns', 'edit_dentix_columns' ) ;
-function edit_dentix_columns($columns) {
+add_filter( 'manage_edit-patient_columns', 'edit_patient_columns' ) ;
+function edit_patient_columns($columns) {
 	$new = array ();
 	foreach($columns as $key => $title) {
 	if($key =='date')
@@ -99,16 +167,12 @@ function edit_dentix_columns($columns) {
 	}
 	return $new;
 }
-
-add_action( 'manage_dentix_posts_custom_column', 'manage_dentix_columns', 10, 2 );
-function manage_dentix_columns( $column, $post_id ) {
-
+add_action( 'manage_patient_posts_custom_column', 'manage_patient_columns', 10, 2 );
+function manage_patient_columns( $column, $post_id ) {
 	// Get meta if exists
 	$address = get_post_meta( $post_id, 'address', true );
 	$phone_number = get_post_meta( $post_id, 'phone_number', true );
-
 	switch( $column ) {
-
 	case 'address' :
 		if ( empty( $address ) ) {
 			echo __( 'Unknown' );
@@ -116,7 +180,6 @@ function manage_dentix_columns( $column, $post_id ) {
 			echo $address;
 		}
 	break;
-
 	case 'phone_number' :
 		if ( empty( $phone_number ) ) {
 			echo __( 'Unknown' );
@@ -126,24 +189,21 @@ function manage_dentix_columns( $column, $post_id ) {
 	break;
 	}
 }
-
-add_filter( 'manage_edit-dentix_sortable_columns', 'dentix_sortable_columns' );
-function dentix_sortable_columns( $columns ) {
+add_filter( 'manage_edit-patient_sortable_columns', 'patient_sortable_columns' );
+function patient_sortable_columns( $columns ) {
 	$columns['address'] = 'address'; 
 	$columns['phone_number'] = 'phone_number'; 
 	return $columns;
 }
-
-add_filter('the_title', 'dentix_full_name',10, 2);
-function dentix_full_name($title, $id) {
-	if('dentix' == get_post_type($id)) {
+add_filter('the_title', 'patient_full_name',10, 2);
+function patient_full_name($title, $id) {
+	if('patient' == get_post_type($id)) {
 		return get_post_meta( $id, 'full_name', true );
 	} else {
 	return $title;
 	}
 }
-
-function set_dentix_columns($columns) {
+function set_patient_columns($columns) {
 	return array(
 		'cb' => '<input type="checkbox" />',
 		'title' => __('Full Name'),
@@ -152,11 +212,10 @@ function set_dentix_columns($columns) {
 		'date' => __('Date')
 	);
 }
-add_filter('manage_dentix_posts_columns' , 'set_dentix_columns');
-
+add_filter('manage_patient_posts_columns' , 'set_patient_columns');
 function my_login_redirect( $url, $request, $user ){
 	if( $user && is_object( $user ) && is_a( $user, 'WP_User' ) ) {
-		if( $user->has_cap( 'edit_dentixs' ) ) {
+		if( $user->has_cap( 'edit_patients' ) ) {
 		$url = admin_url('index.php');
 		} else {
 			$url = admin_url();
@@ -164,13 +223,11 @@ function my_login_redirect( $url, $request, $user ){
 	}
 	return $url;
 }
-
 add_filter('login_redirect', 'my_login_redirect', 10, 3 );
-
 add_filter( 'post_row_actions', 'remove_row_actions', 10, 2 );
 function remove_row_actions( $actions, $post ) {
 	global $current_screen;
-	if( $current_screen->post_type != 'dentix' ) return $actions;
+	if( $current_screen->post_type != 'patient' ) return $actions;
 		//unset( $actions['edit'] );
 		//unset( $actions['view'] );
 		unset( $actions['trash'] );
@@ -178,10 +235,9 @@ function remove_row_actions( $actions, $post ) {
 		//$actions['inline hide-if-no-js'] .= __( '' );
 	return $actions;
 }
-
 function admin_tool_bar ($wp_admin_bar) {
 	global $wp_admin_bar;
-	$post_type = 'dentix';
+	$post_type = 'patient';
 	$count = wp_count_posts ($post_type);
 	$args = array (
 		'id' => 'mbe_testimonials_pending',
@@ -202,18 +258,15 @@ function admin_tool_bar ($wp_admin_bar) {
 	$args['title'] = $display;
 	$wp_admin_bar->add_node($args);
 }
-
 add_action('wp_before_admin_bar_render', 'admin_tool_bar', 999);
-
 add_filter( 'add_menu_classes', 'show_pending_number');
 function show_pending_number( $menu ) {
-	$type = "dentix";
+	$type = "patient";
 	$status = "pending";
 	$num_posts = wp_count_posts( $type, 'readable' );
 	$pending_count = 0;
 	if ( !empty($num_posts->$status) )
 	$pending_count = $num_posts->$status;
-
 	// build string to match in $menu array
 	if ($type == 'post') {
 		$menu_str = 'edit.php'; 
@@ -221,7 +274,6 @@ function show_pending_number( $menu ) {
 	} else {
 		$menu_str = 'edit.php?post_type=' . $type;
 	}
-
 	// loop through $menu items, find match, add indicator
 	foreach( $menu as $menu_key => $menu_data ) {
 		if( $menu_str != $menu_data[2] )
@@ -230,16 +282,48 @@ function show_pending_number( $menu ) {
 	}
 	return $menu;
 }
-
-function screen_layout_columns( $columns ) {
-	$columns['dentix'] = 1;
-	return $columns;
+function get_custom_post_type_template($single_template) {
+     global $post;
+     if ($post->post_type == 'patient') {
+          $single_template = dirname( __FILE__ ) . '/patient.php';
+     }
+     return $single_template;
 }
-add_filter( 'screen_layout_columns', 'screen_layout_columns' );
+//add_filter( 'single_template', 'get_custom_post_type_template' );
 
-function screen_layout_dentix() {
-	return 1;
+add_filter( 'template_include', 'dentix_template', 1 );
+// Load Template from themes
+function dentix_template( $template_path ) {
+    if ( get_post_type() == 'patient' ) {
+        if ( is_single() ) {
+            $template_path = plugin_dir_path( __FILE__ ) . '/template/single-patient.php';
+        }
+        if ( is_archive() ) {
+            $template_path = plugin_dir_path( __FILE__ ) . '/template/archive-dentix.php';
+        }
+    }
+    return $template_path;
 }
-add_filter( 'get_user_option_screen_layout_dentix', 'screen_layout_dentix' );
 
-?>
+// func that is going to set our title of our customer magically
+function patient_set_title( $data , $postarr ) {
+
+    // We only care if it's our customer
+    if( $data[ 'post_type' ] === 'patient' ) {
+
+        // get the customer name from _POST or from post_meta
+        $registration_number = ( ! empty( $_POST[ 'registration_number' ] ) ) ? $_POST[ 'registration_number' ] : get_post_meta( $postarr[ 'ID' ], 'registration_number', true );
+
+        // if the name is not empty, we want to set the title
+        if( $registration_number !== '' ) {
+
+            // sanitize name for title
+            $data[ 'post_title' ] = $registration_number;
+            // sanitize the name for the slug
+            $data[ 'post_name' ]  = sanitize_title( sanitize_title_with_dashes( $registration_number, '', 'save' ) );
+        }
+    }
+    return $data;
+}
+add_filter( 'wp_insert_post_data' , 'patient_set_title' , '99', 2 );
+
