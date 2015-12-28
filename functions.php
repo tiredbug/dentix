@@ -1,7 +1,6 @@
 <?php
 
 add_action('edit_form_after_title', 'dentix_move_metabox');
-
 function dentix_move_metabox() 
 {
 	global $post, $wp_meta_boxes;
