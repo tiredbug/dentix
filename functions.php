@@ -169,7 +169,7 @@ function dentix_admin_tool_bar ($wp_admin_bar)
 	$wp_admin_bar->add_node($args);
 }
 
-add_filter( 'add_menu_classes', 'debtix_show_pending_number');
+add_filter( 'add_menu_classes', 'dentix_show_pending_number');
 function dentix_show_pending_number( $menu ) 
 {
 	$type = "patient";
