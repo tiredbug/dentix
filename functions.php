@@ -1,5 +1,16 @@
 <?php
 
+add_action('edit_form_after_title', 'dentix_move_metabox');
+
+function dentix_move_metabox() {
+	global $post, $wp_meta_boxes;
+if ( 'patient' === get_current_screen()->id ) 
+			{
+	do_meta_boxes(get_current_screen(), 'advanced', $post);
+	unset($wp_meta_boxes['patient']['advanced']);
+}
+}
+
 add_action( 'posts_where_request', 'dentix_fields_search' );
 function dentix_fields_search($where) {
 	if ( is_search() ) {
