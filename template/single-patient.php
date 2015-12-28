@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php bloginfo('name'); ?></title>
 <link rel='stylesheet' id='bootswatch_style-css'  href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css?ver=4.1' type='text/css' media='all' />
 <style type="text/css" media="screen">
 body { margin-top: 40px; margin-bottom: 40px; }
+.container{
+  max-width: none !important;
+  width: 970px;
+}
 .table-odontogram {
 	width: 100%;
 	overflow-y: auto;
