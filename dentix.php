@@ -55,6 +55,9 @@ if(!class_exists('Dentix'))
                         // Register treatments metabox
                         require_once(sprintf('%s/treatments.php', dirname(__FILE__)));
 
+                        // Register functions
+                        require_once(sprintf('%s/functions.php', dirname(__FILE__)));
+
                         // Register widgets metabox
                         require_once(sprintf('%s/widgets.php', dirname(__FILE__)));
 
