@@ -62,7 +62,7 @@ if(!class_exists('Dentix'))
 			add_filter('plugin_action_links_$plugin', array( $this, 'plugin_settings_link' ));
 			add_action('admin_print_scripts', array( $this, 'dentix_scripts' ));
 
-add_action('edit_form_after_title', array( $this,  'dentix_move_metabox'));
+			add_action('edit_form_after_title', array( $this,  'dentix_move_metabox'));
 
 		} // END public function __construct
 
@@ -110,15 +110,16 @@ add_action('edit_form_after_title', array( $this,  'dentix_move_metabox'));
 			}
 		}
 
-
-function dentix_move_metabox() {
-	global $post, $wp_meta_boxes;
-if ( 'patient' === get_current_screen()->id ) 
+		function dentix_move_metabox() 
+		{
+		global $post, $wp_meta_boxes;
+			if ( 'patient' === get_current_screen()->id ) 
 			{
-	do_meta_boxes(get_current_screen(), 'advanced', $post);
-	unset($wp_meta_boxes['patient']['advanced']);
-}
-}
+				do_meta_boxes(get_current_screen(), 'advanced', $post);
+				unset($wp_meta_boxes['patient']['advanced']);
+			}
+		}
+		
 	} // END class Dentix
 } // END if(!class_exists('Dentix'))
 
@@ -326,4 +327,3 @@ function patient_set_title( $data , $postarr ) {
     return $data;
 }
 add_filter( 'wp_insert_post_data' , 'patient_set_title' , '99', 2 );
-
