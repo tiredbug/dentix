@@ -1,2 +1,2 @@
-# wpemr
-A simple electronic medical record plugins for WordPress
+# Dentix
+A simple electronic dental records plugins for WordPress
