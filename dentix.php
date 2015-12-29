@@ -3,7 +3,7 @@
 Plugin Name: Dentix
 Plugin URI: http://basoro.org/dentix 
 Description: A simple wordpress plugin for electronic dental records 
-Version: 3.4
+Version: 3.5
 Author: Faisol Basoro 
 Author URI: http://basoro.org 
 Text Domain: dentix 

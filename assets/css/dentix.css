@@ -17,7 +17,16 @@ a.nav-tabbb {
 	margin: 0 0 1em;
 	padding-right: 0px;
 }
-
+.gigi_lancip{
+    background: url("../img/lancip.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.gigi_kotak{
+    background: url("../img/kotak.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
 td.name { font-weight: bold; font-size: 14px; }
 input.odont_input, .odont_color {
 	width: 25px;
