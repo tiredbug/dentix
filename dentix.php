@@ -62,7 +62,7 @@ if(!class_exists('Dentix'))
                         require_once(sprintf('%s/widgets.php', dirname(__FILE__)));
 
 			$plugin = plugin_basename(__FILE__);
-			add_filter('plugin_action_links_$plugin', array( $this, 'plugin_settings_link' ));
+			add_filter("plugin_action_links_$plugin", array( $this, 'plugin_settings_link' ));
 			add_action('admin_print_scripts', array( $this, 'dentix_scripts' ));
 
 		} // END public function __construct
