@@ -19,8 +19,8 @@ if(!class_exists('Dentix_Settings'))
         public function admin_init()
         {
         	// register your plugin's settings
-        	register_setting('dentix_settings-group', 'setting_a');
-        	register_setting('dentix_settings-group', 'setting_b');
+        	register_setting('dentix_settings-group', 'dentix_setting_dentist_name');
+        	register_setting('dentix_settings-group', 'dentix_setting_address');
 
         	// add your settings section
         	add_settings_section(
@@ -32,23 +32,23 @@ if(!class_exists('Dentix_Settings'))
         	
         	// add your setting's fields
             	add_settings_field(
-                	'dentix_settings-setting_a', 
-                	'Setting A', 
+                	'dentix_settings-setting_dentist_name', 
+                	'Dentist Name', 
                 	array(&$this, 'settings_field_input_text'), 
                 	'dentix_settings', 
                 	'dentix_settings-section',
                 	array(
-                    		'field' => 'setting_a'
+                    		'field' => 'dentix_setting_dentist_name'
                 	)
             	);
             	add_settings_field(
-                	'dentix_settings-setting_b', 
-                	'Setting B', 
-                	array(&$this, 'settings_field_input_text'), 
+                	'dentix_settings-setting_address', 
+                	'Clinic Address', 
+                	array(&$this, 'settings_field_input_textarea'), 
                 	'dentix_settings', 
                 	'dentix_settings-section',
                 	array(
-                    	'field' => 'setting_b'
+                    		'field' => 'dentix_setting_address'
                 	)
             	);
             	// Possibly do additional admin_init tasks
@@ -70,7 +70,20 @@ if(!class_exists('Dentix_Settings'))
             	// Get the value of this setting
             	$value = get_option($field);
             	// echo a proper input type="text"
-            	echo sprintf('<input type="text" name="%s" id="%s" value="%s" />', $field, $field, $value);
+            	echo sprintf('<input type="text" name="%s" id="%s" value="%s" class="regular-text"/>', $field, $field, $value);
+        } // END public function settings_field_input_text($args)
+        
+        /**
+         * This function provides text inputs for settings fields
+         */
+        public function settings_field_input_textarea($args)
+        {
+            	// Get the field name from the $args array
+            	$field = $args['field'];
+            	// Get the value of this setting
+            	$value = get_option($field);
+            	// echo a proper input type="textarea"
+            	echo sprintf('<textarea name="%s" id="%s" rows="5" cols="50" class="large-text"/>%s</textarea>', $field, $field, $value);
         } // END public function settings_field_input_text($args)
         
         /**
