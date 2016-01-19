@@ -51,8 +51,8 @@ body { margin-top: 40px; margin-bottom: 40px; }
       <div class="row">
         <div class="col-sm-12 text-center">
                     <h1>REKAM MEDIS PASIEN</h1>
-                    <h3><?php echo get_option('wpdental_setting_nama'); ?></h3>
-                    <h5><?php echo get_option('wpdental_setting_alamat'); ?></h5>
+                    <h3><?php echo get_option('dentix_setting_dentist_name'); ?></h3>
+                    <h5><?php echo get_option('dentix_setting_address'); ?></h5>
 	<hr />
         </div>
       </div>
