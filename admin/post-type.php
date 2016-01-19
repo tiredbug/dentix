@@ -87,7 +87,7 @@ if(!class_exists('Dentix_Patient'))
 			if ( ! isset( $wp_roles ) ) $wp_roles = new WP_Roles();
 				//create a new role, based on the subscriber role 
 				$subscriber = $wp_roles->get_role('subscriber');
-				$wp_roles->add_role('doctor', __( 'Doctor', 'dentix' ), $subscriber->capabilities);
+				$wp_roles->add_role('dentist', __( 'Dentist', 'dentix' ), $subscriber->capabilities);
 
 			$caps = array(
 				'read',
@@ -107,7 +107,7 @@ if(!class_exists('Dentix_Patient'))
 
 			$roles = array(
 				get_role( 'administrator' ),
-				get_role( 'doctor' ),
+				get_role( 'dentist' ),
 			);
 
 			foreach ($roles as $role) 
