@@ -52,9 +52,6 @@ if(!class_exists('Dentix'))
 			require_once(sprintf('%s/admin/post-type.php', dirname(__FILE__)));
 			$Dentix_Patient = new Dentix_Patient();
 
-                        // Register treatments metabox
-                        require_once(sprintf('%s/treatments.php', dirname(__FILE__)));
-
                         // Register functions
                         require_once(sprintf('%s/functions.php', dirname(__FILE__)));
 
