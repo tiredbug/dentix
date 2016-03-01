@@ -18,8 +18,14 @@ msgstr ""
 "X-Loco-Target-Locale: id_ID"
 
 #: wp-admin/network/sites.php:7
-msgid "All Dentixs"
-msgstr "Semua Dentixs"
+msgid "Patients"
+msgstr "Pasien"
+
+msgid "All Patients"
+msgstr "Semua Pasien"
 
 msgid "Dentix Settings"
 msgstr "Pengaturan Dentix"
+
+msgid "Address"
+msgstr "Alamat"
