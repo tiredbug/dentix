@@ -7,7 +7,8 @@ if(!class_exists('Dentix_Patient'))
 	class Dentix_Patient
 	{
 		const POST_TYPE	= "patient";
-		private $_meta	= array(			 'registration_number', 'full_name', 'sex', 'birthdate', 'address', 'phone_number', 'occupation', 'marriage', 'images', 
+		private $_meta	= array(
+			'registration_number', 'full_name', 'sex', 'birthdate', 'address', 'phone_number', 'occupation', 'marriage', 'images', 
 			'gg_18', 'gg_17', 'gg_16', 'gg_15', 'gg_14', 'gg_13', 'gg_12', 'gg_11', 'gg_21', 'gg_22', 'gg_23', 'gg_24', 'gg_25', 'gg_26', 'gg_27', 'gg_28',
 			'gg_48', 'gg_47', 'gg_46', 'gg_45', 'gg_44', 'gg_43', 'gg_42', 'gg_41', 'gg_31', 'gg_32', 'gg_33', 'gg_34', 'gg_35', 'gg_36', 'gg_37', 'gg_38',
 			'gg_55', 'gg_54', 'gg_53', 'gg_52', 'gg_51', 'gg_61', 'gg_62', 'gg_63', 'gg_64', 'gg_65', 
@@ -37,6 +38,7 @@ if(!class_exists('Dentix_Patient'))
     		// Initialize Post Type
     		$this->create_post_type();
     		add_action('save_post', array(&$this, 'save_post'));
+                add_action('save_post', array(&$this, 'treatments_metabox_save'));
     	} // END public function init()
 
     	/**
@@ -232,6 +234,49 @@ if(!class_exists('Dentix_Patient'))
     			return;
     		} // if($_POST['post_type'] == self::POST_TYPE && current_user_can('edit_post', $post_id))
     	} // END public function save_post($post_id)
+    	
+        public function treatments_metabox_save($post_id) {
+                if ( ! isset( $_POST['treatments_metabox_nonce'] ) ||
+                ! wp_verify_nonce( $_POST['treatments_metabox_nonce'], 'treatments_metabox_nonce' ) )
+                        return;
+
+                if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+                        return;
+
+                if (!current_user_can('edit_post', $post_id))
+                        return;
+
+                $old = get_post_meta($post_id, 'treatments_metabox_fields', true);
+                $new = array();
+
+                $dates = $_POST['date'];
+                $anamnesises = $_POST['anamnesis'];
+                $diagnosises = $_POST['diagnosis'];
+                $treatmentes = $_POST['treatment'];
+                $billes = $_POST['bill'];
+
+                $count = count( $anamnesises );
+
+                for ( $i = 0; $i < $count; $i++ ) {
+                        if ( $anamnesises[$i] != '' ) :
+                                $new[$i]['date'] = stripslashes( strip_tags( $dates[$i] ) );
+
+                                $new[$i]['anamnesis'] = stripslashes( strip_tags( $anamnesises[$i] ) );
+
+                                $new[$i]['diagnosis'] = stripslashes( strip_tags( $diagnosises[$i] ) );
+
+                                $new[$i]['treatment'] = stripslashes( strip_tags( $treatmentes[$i] ) );
+
+                                $new[$i]['bill'] = stripslashes( strip_tags( $billes[$i] ) );
+                        endif;
+                }
+
+                if ( !empty( $new ) && $new != $old )
+                        update_post_meta( $post_id, 'treatments_metabox_fields', $new );
+                elseif ( empty($new) && $old )
+                        delete_post_meta( $post_id, 'treatments_metabox_fields', $old );
+        }
+
 
     	/**
     	 * hook into WP's admin_init action hook
@@ -268,6 +313,14 @@ if(!class_exists('Dentix_Patient'))
     			self::POST_TYPE, 'advanced', 'high'
     	    );					
 
+                add_meta_box(
+                        sprintf('treatments-metabox'),
+                        sprintf('%s Treatments Information', ucwords(self::POST_TYPE)),
+                        array(&$this, 'treatments_inner_meta_boxes'),
+                        self::POST_TYPE, 'advanced', 'high'
+            );
+
+
     	} // END public function add_meta_boxes()
 
 		/**
@@ -290,6 +343,12 @@ if(!class_exists('Dentix_Patient'))
 			// Render the job order metabox
 			include(sprintf("%s/../views/gallery.php", dirname(__FILE__)));			
 		} // END public function add_inner_meta_boxes($post)
+
+                public function treatments_inner_meta_boxes($post)
+                {
+                        // Render the job order metabox
+                        include(sprintf("%s/../views/treatments.php", dirname(__FILE__)));
+                } // END public function add_inner_meta_boxes($post)
 
 	} // END class Dentix_Patient
 } // END if(!class_exists('Dentix_Patient'))
