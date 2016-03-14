@@ -49,7 +49,7 @@ if(!class_exists('Dentix'))
 			$Dentix_Settings = new Dentix_Settings();
 
 			// Register custom post types
-			require_once(sprintf('%s/admin/post-type.php', dirname(__FILE__)));
+			require_once(sprintf('%s/admin/patient-post-type.php', dirname(__FILE__)));
 			$Dentix_Patient = new Dentix_Patient();
 
                         // Register functions
