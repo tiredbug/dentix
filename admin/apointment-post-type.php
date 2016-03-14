@@ -1,10 +1,10 @@
 <?php
-if(!class_exists('Apointment'))
+if(!class_exists('Dentix_Appointment'))
 {
 	/**
 	 * A PostType class that provides additional meta fields
 	 */
-	class Apointment
+	class Dentix_Appointment
 	{
 		const POST_TYPE	= "apointment";
 		private $_meta	= array(
@@ -140,5 +140,5 @@ if(!class_exists('Apointment'))
 			}
 		}
 
-	} // END class Apointment
-} // END if(!class_exists('Apointment'))
+	} // END class Dentix_Appointment
+} // END if(!class_exists('Dentix_Appointment'))
