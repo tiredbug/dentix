@@ -126,7 +126,7 @@ if(!class_exists('Dentix_Appointment'))
 		public function add_inner_meta_boxes($post)
 		{		
 			// Render the job order metabox
-			include(sprintf("%s/admin/views/%s-metabox.php", dirname(__FILE__), self::POST_TYPE));			
+			include(sprintf("%s/admin/views/%s.php", dirname(__FILE__), self::POST_TYPE));			
 		} // END public function add_inner_meta_boxes($post)
 
 
