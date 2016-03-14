@@ -48,9 +48,13 @@ if(!class_exists('Dentix'))
 			require_once(sprintf('%s/settings.php', dirname(__FILE__)));
 			$Dentix_Settings = new Dentix_Settings();
 
-			// Register custom post types
+			// Register patient post types
 			require_once(sprintf('%s/admin/patient-post-type.php', dirname(__FILE__)));
 			$Dentix_Patient = new Dentix_Patient();
+
+			// Register appointment post types
+			require_once(sprintf('%s/admin/appointment-post-type.php', dirname(__FILE__)));
+			$Dentix_Appointment = new Dentix_Appointment();
 
                         // Register functions
                         require_once(sprintf('%s/functions.php', dirname(__FILE__)));
