@@ -329,25 +329,25 @@ if(!class_exists('Dentix_Patient'))
 		public function profile_inner_meta_boxes($post)
 		{		
 			// Render the job order metabox
-			include(sprintf("%s/../views/profile.php", dirname(__FILE__)));			
+			include(sprintf("%s/views/profile.php", dirname(__FILE__)));			
 		} // END public function add_inner_meta_boxes($post)
 
 		public function odontogram_inner_meta_boxes($post)
 		{		
 			// Render the job order metabox
-			include(sprintf("%s/../views/odontogram.php", dirname(__FILE__)));			
+			include(sprintf("%s/views/odontogram.php", dirname(__FILE__)));			
 		} // END public function add_inner_meta_boxes($post)
 
 		public function gallery_inner_meta_boxes($post)
 		{		
 			// Render the job order metabox
-			include(sprintf("%s/../views/gallery.php", dirname(__FILE__)));			
+			include(sprintf("%s/views/gallery.php", dirname(__FILE__)));			
 		} // END public function add_inner_meta_boxes($post)
 
                 public function treatments_inner_meta_boxes($post)
                 {
                         // Render the job order metabox
-                        include(sprintf("%s/../views/treatments.php", dirname(__FILE__)));
+                        include(sprintf("%s/views/treatments.php", dirname(__FILE__)));
                 } // END public function add_inner_meta_boxes($post)
 
 	} // END class Dentix_Patient
