@@ -1,7 +1,25 @@
 <table class="form-table">
 	<tr>
-		<th><label for="full_name"><?php _e("Full Name", "dentix"); ?></label></th>
-		<td><input type="text" name="full_name" id="full_name" value="<?php echo @get_post_meta($post->ID, 'full_name', true); ?>" class="regular-text"></td>
+		<th><label for="full_name">Select patient name</label></th>
+		<td>
+		<select name="full_name" id="full_name">";
+<?php
+    // Query the authors here
+    $patient_id = get_post_meta($post->ID, 'full_name', true);
+    $query = new WP_Query( 'post_type=patient' );
+    while ( $query->have_posts() ) {
+        $query->the_post();
+        $id = get_the_ID();
+        $selected = "";
+
+        if($id == $patient_id){
+            $selected = ' selected="selected"';
+        }
+        echo '<option' . $selected . ' value=' . $id . '>' . get_the_title() . '</option>';
+    } 
+    ?>
+		</select>
+		<td>
 	</tr>
 	<tr>
 		<th><label for="appointment_date"><?php _e("Appointment Date", "dentix"); ?></label></th>
