@@ -227,3 +227,33 @@ function patient_set_title( $data , $postarr )
     	}
     	return $data;
 }
+
+add_filter('manage_edit-appointment_columns', 'p2p2_add_appointment_columns');
+
+function p2p2_add_appointment_columns($columns){
+    $new_columns['cb'] = '<input type="checkbox" />';
+
+    $new_columns['title'] = _x('Title', 'column name', 'dentix');
+
+    $new_columns['p2p2_patient'] = __('Patient', 'dentix');
+
+    return $new_columns;
+}
+
+add_action('manage_appointment_posts_custom_column', 'p2p2_fill_appointment_columns', 10, 2);
+
+function p2p2_fill_appointment_columns($column_name, $id) {
+    global $wpdb;
+    switch ($column_name) {
+        case 'p2p2_patient':
+            $patient_id = get_post_meta($id, 'full_name', true);
+            $patients = get_post($patient_id);
+            $permalink = get_permalink($patient_id);
+	    $get_the_title = get_the_title($patient_id);
+            echo "<a href='" . $permalink . "'>" . $get_the_title . "</a>";
+            //echo "<a href='" . $permalink . "'>hhhh" . $patient->post_title . "</a>";
+           break;
+        default:
+            break;
+    } // end switch
+}
