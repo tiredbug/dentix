@@ -112,7 +112,7 @@ if(!class_exists('Dentix_Settings'))
         	}
 	
         	// Render the settings template
-        	include(sprintf("%s/views/settings.php", dirname(__FILE__)));
+        	include(sprintf("%s/admin/views/settings.php", dirname(__FILE__)));
         } // END public function plugin_settings_page()
     } // END class Dentix_Settings
 } // END if(!class_exists('Dentix_Settings'))
