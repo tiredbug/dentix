@@ -233,9 +233,11 @@ add_filter('manage_edit-appointment_columns', 'p2p2_add_appointment_columns');
 function p2p2_add_appointment_columns($columns){
     $new_columns['cb'] = '<input type="checkbox" />';
 
-    $new_columns['title'] = _x('Title', 'column name', 'dentix');
+    $new_columns['title'] = _x('Date', 'column name', 'dentix');
 
     $new_columns['p2p2_patient'] = __('Patient', 'dentix');
+        
+    $new_columns['p2p2_complaint'] = __('Complaint', 'dentix');
 
     return $new_columns;
 }
@@ -249,11 +251,42 @@ function p2p2_fill_appointment_columns($column_name, $id) {
             $patient_id = get_post_meta($id, 'full_name', true);
             $patients = get_post($patient_id);
             $permalink = get_permalink($patient_id);
-	    $get_the_title = get_the_title($patient_id);
+	        $get_the_title = get_the_title($patient_id);
             echo "<a href='" . $permalink . "'>" . $get_the_title . "</a>";
-            //echo "<a href='" . $permalink . "'>hhhh" . $patient->post_title . "</a>";
+           break;
+        case 'p2p2_date':
+            $appointment_date = get_post_meta($id, 'appointment_date', true);
+            echo $appointment_date;
+           break;
+        case 'p2p2_complaint':
+            $main_complaint = get_post_meta($id, 'main_complaint', true);
+            echo $main_complaint;
            break;
         default:
             break;
     } // end switch
+}
+
+add_filter('the_title', 'appointment_date',10, 2);
+function appointment_date($title, $id) 
+{
+	if('appointment' == get_post_type($id)) 
+	{
+		return get_post_meta( $id, 'appointment_date', true );
+	} else {
+		return $title;
+	}
+}
+
+add_filter( 'post_row_actions', 'appointment_remove_row_actions', 10, 2 );
+function appointment_remove_row_actions( $actions, $post ) 
+{
+	global $current_screen;
+	if( $current_screen->post_type != 'appointment' ) return $actions;
+		unset( $actions['edit'] );
+		unset( $actions['view'] );
+		//unset( $actions['trash'] );
+		unset( $actions['inline hide-if-no-js'] );
+		//$actions['inline hide-if-no-js'] .= __( '' );
+	return $actions;
 }
