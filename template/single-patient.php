@@ -276,8 +276,6 @@ else {
         </div>
       </div>
 
-	<?php comments_template(''); ?>
-
         <?php endwhile; ?>
         <?php else: ?>
         <?php wp_redirect(get_bloginfo('siteurl').'/404', 404); exit; ?>  
