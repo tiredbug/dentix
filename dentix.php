@@ -3,7 +3,7 @@
 Plugin Name: Dentix
 Plugin URI: http://basoro.org/dentix 
 Description: A simple wordpress plugin for electronic dental records 
-Version: 3.8
+Version: 3.9 
 Author: Faisol Basoro 
 Author URI: http://basoro.org 
 Text Domain: dentix 
@@ -12,7 +12,7 @@ License: GPL2
 */
 
 /*
-Copyright 2015  Faisol Basoro  (email : drg.faisol@basoro.org)
+Copyright 2016 Faisol Basoro  (email : drg.faisol@basoro.org)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
