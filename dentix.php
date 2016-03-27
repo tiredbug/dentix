@@ -94,22 +94,35 @@ if(!class_exists('Dentix'))
 
 		function dentix_scripts() 
 		{
-			if ( 'patient' === get_current_screen()->id ) 
-			{
 
 				wp_enqueue_style( 'jquery-ui-style', plugins_url( 'assets/css/jquery-ui.min.css', __FILE__ ));
 				wp_enqueue_style( 'jquery-datepicker-css', plugins_url( 'assets/css/jquery.datePicker.css', __FILE__ ));
-				wp_enqueue_style( 'dentix-css', plugins_url( 'assets/css/dentix.css', __FILE__ ));
 
 				wp_enqueue_media();
 				wp_enqueue_script( 'jquery' );
 				wp_enqueue_script( 'jquery-ui-core' );
 				wp_enqueue_script( 'jquery-ui-datepicker' );
-
+				
+				wp_enqueue_style( 'select2css', plugins_url( 'assets/css/select2.min.css', __FILE__ ), false, '1.0', 'all' );
+                wp_enqueue_style( 'dentix-css', plugins_url( 'assets/css/dentix.css', __FILE__ ));
+                                
 				wp_enqueue_script( 'jquery-colorpicker-js', plugins_url( 'assets/js/jquery.colorPicker.js', __FILE__ ), array('jquery'), time(), false );
-				wp_enqueue_script( 'dentix-js', plugins_url( 'assets/js/dentix.js', __FILE__ ), array('jquery'), time(), false );
+				wp_enqueue_script( 'select2', plugins_url( 'assets/js/select2.min.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 
-			}
+                if ( 'patient' === get_current_screen()->id )
+                {
+
+				        wp_enqueue_script( 'patient-js', plugins_url( 'assets/js/patient.js', __FILE__ ), array('jquery'), time(), false );
+
+			    }
+
+                if ( 'appointment' === get_current_screen()->id )
+                {
+ 
+                        wp_enqueue_script( 'appointment-js', plugins_url( 'assets/js/appointment.js', __FILE__ ), array('jquery'), time(), false );
+
+                 }
+
 		}
 
 	} // END class Dentix
