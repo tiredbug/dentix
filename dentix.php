@@ -40,7 +40,7 @@ if(!class_exists('Dentix'))
 			// Initialize Settings
 			require_once(sprintf("%s/updater.php", dirname(__FILE__)));
 			$Dentix_Updater = new Dentix_Updater(__FILE__);
-			$Dentix_Updater->set_username( 'basoro' );
+			$Dentix_Updater->set_username( 'tiredbug' );
 			$Dentix_Updater->set_repository( 'dentix' );
 			$Dentix_Updater->initialize();
 
